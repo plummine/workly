@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Task Instructions</title>
+    <title>Workly - Task Zone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #00d4ff; --bg: #0d0d0d; --card: #161616; }
-        body { background: var(--bg); color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
+        :root { --primary: #00d4ff; --bg: #0d0d0d; --card: #161616; --text: #e0e0e0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 480px; }
         .header { text-align: center; padding: 25px 0; border-bottom: 1px solid #222; margin-bottom: 20px; }
         .header h2 { color: var(--primary); margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
@@ -15,11 +15,12 @@
         .ins-card h4 { color: var(--primary); margin: 0 0 15px 0; font-size: 18px; display: flex; align-items: center; gap: 10px; }
         .ins-card ul { padding-left: 18px; margin: 0; font-size: 14px; color: #bbb; line-height: 1.8; }
         .main-btn { display: block; background: linear-gradient(135deg, #00829b, #00d4ff); color: #000; text-align: center; text-decoration: none; padding: 16px; border-radius: 15px; font-weight: 800; margin-bottom: 25px; font-size: 16px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3); }
+        .timer-box { font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 15px; display: none; }
+        .upload-section { display: none; } /* শুরুতে হাইড থাকবে */
         .upload-box { background: #1a1a1a; border: 2px dashed #444; border-radius: 15px; padding: 35px 20px; text-align: center; cursor: pointer; }
         #imgPreview { width: 100%; margin-top: 15px; border-radius: 12px; display: none; border: 1px solid #333; }
         input[type="file"] { display: none; }
-        .submit-btn { width: 100%; background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 15px; font-weight: bold; font-size: 17px; margin-top: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        .submit-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .submit-btn { width: 100%; background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 15px; font-weight: bold; font-size: 17px; margin-top: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .spinner { width: 20px; height: 20px; border: 3px solid #000; border-bottom-color: transparent; border-radius: 50%; display: none; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -27,113 +28,94 @@
 <body>
 
 <div class="container">
-    <div class="header">
-        <h2>WORKLY TASK</h2>
-    </div>
+    <div class="header"><h2>WORKLY TASK</h2></div>
 
     <div class="ins-card">
         <h4 id="taskTitle">লোড হচ্ছে...</h4>
         <ul id="stepList"></ul>
     </div>
 
-    <a href="#" id="actionLink" target="_blank" class="main-btn">লোড হচ্ছে...</a>
+    <a href="#" id="actionLink" target="_blank" class="main-btn" onclick="startTimer()">লিঙ্কে প্রবেশ করুন</a>
 
-    <form id="proofForm">
-        <p style="font-size: 13px; color: #666; margin-bottom: 8px;">কাজের প্রমাণ (স্ক্রিনশট) দিন:</p>
-        <label for="fileInput" class="upload-box">
-            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #333; display: block; margin-bottom: 10px;"></i>
-            <p id="statusText">ছবি সিলেক্ট করুন</p>
-            <input type="file" id="fileInput" accept="image/*" required>
-        </label>
-        <img id="imgPreview">
-        <button type="submit" class="submit-btn" id="submitBtn">
-            <span class="spinner" id="spinner"></span>
-            <span id="btnText">সাবমিট করুন</span>
-        </button>
-    </form>
+    <div id="timerDisplay" class="timer-box">অপেক্ষা করুন: <span id="seconds">15</span> সেকেন্ড</div>
+
+    <div id="uploadSection" class="upload-section">
+        <form id="proofForm">
+            <p style="font-size: 13px; color: #666; margin-bottom: 8px;">কাজের প্রমাণ (স্ক্রিনশট) দিন:</p>
+            <label for="fileInput" class="upload-box">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #333; display: block; margin-bottom: 10px;"></i>
+                <p id="statusText">ছবি সিলেক্ট করুন</p>
+                <input type="file" id="fileInput" accept="image/*" required>
+            </label>
+            <img id="imgPreview">
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="spinner" id="spinner"></span>
+                <span id="btnText">সাবমিট করুন</span>
+            </button>
+        </form>
+    </div>
 </div>
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const uID = urlParams.get('user_id');
-    const tID = urlParams.get('task_id');
+    const uID = urlParams.get('user_id') || 'GUEST';
+    const tID = urlParams.get('task_id') || 'ad_1';
 
-    // --- ৩০টি লিংক বসানোর জায়গা শুরু ---
+    // --- ৩০টি লিঙ্ক বসানোর জায়গা ---
     const taskLinks = {
-        // ২০টি অ্যাড টাস্ক লিংক
-        "ad_1": "https://LINK_AD_1",
-        "ad_2": "https://LINK_AD_2",
-        "ad_3": "https://LINK_AD_3",
-        "ad_4": "https://LINK_AD_4",
-        "ad_5": "https://LINK_AD_5",
-        "ad_6": "https://LINK_AD_6",
-        "ad_7": "https://LINK_AD_7",
-        "ad_8": "https://LINK_AD_8",
-        "ad_9": "https://LINK_AD_9",
-        "ad_10": "https://LINK_AD_10",
-        "ad_11": "https://LINK_AD_11",
-        "ad_12": "https://LINK_AD_12",
-        "ad_13": "https://LINK_AD_13",
-        "ad_14": "https://LINK_AD_14",
-        "ad_15": "https://LINK_AD_15",
-        "ad_16": "https://LINK_AD_16",
-        "ad_17": "https://LINK_AD_17",
-        "ad_18": "https://LINK_AD_18",
-        "ad_19": "https://LINK_AD_19",
-        "ad_20": "https://LINK_AD_20",
-
-        // ১০টি সোশ্যাল টাস্ক লিংক
-        "soc_1": "https://LINK_SOC_1",
-        "soc_2": "https://LINK_SOC_2",
-        "soc_3": "https://LINK_SOC_3",
-        "soc_4": "https://LINK_SOC_4",
-        "soc_5": "https://LINK_SOC_5",
-        "soc_6": "https://LINK_SOC_6",
-        "soc_7": "https://LINK_SOC_7",
-        "soc_8": "https://LINK_SOC_8",
-        "soc_9": "https://LINK_SOC_9",
-        "soc_10": "https://LINK_SOC_10"
+        "ad_1": "AD_LINK_1", "ad_2": "AD_LINK_2", "ad_3": "AD_LINK_3", "ad_4": "AD_LINK_4", "ad_5": "AD_LINK_5",
+        "ad_6": "AD_LINK_6", "ad_7": "AD_LINK_7", "ad_8": "AD_LINK_8", "ad_9": "AD_LINK_9", "ad_10": "AD_LINK_10",
+        "ad_11": "AD_LINK_11", "ad_12": "AD_LINK_12", "ad_13": "AD_LINK_13", "ad_14": "AD_LINK_14", "ad_15": "AD_LINK_15",
+        "ad_16": "AD_LINK_16", "ad_17": "AD_LINK_17", "ad_18": "AD_LINK_18", "ad_19": "AD_LINK_19", "ad_20": "AD_LINK_20",
+        "soc_1": "SOC_LINK_1", "soc_2": "SOC_LINK_2", "soc_3": "SOC_LINK_3", "soc_4": "SOC_LINK_4", "soc_5": "SOC_LINK_5",
+        "soc_6": "SOC_LINK_6", "soc_7": "SOC_LINK_7", "soc_8": "SOC_LINK_8", "soc_9": "SOC_LINK_9", "soc_10": "SOC_LINK_10"
     };
-    // --- ৩০টি লিংক বসানোর জায়গা শেষ ---
 
     const taskTitle = document.getElementById('taskTitle');
     const stepList = document.getElementById('stepList');
     const actionLink = document.getElementById('actionLink');
 
-    if (tID && tID.startsWith('ad_')) {
+    // কনটেন্ট সেটআপ
+    if (tID.startsWith('ad_')) {
         taskTitle.innerHTML = '<i class="fas fa-mouse-pointer"></i> অ্যাড ক্লিক টাস্ক';
-        stepList.innerHTML = `<li>সাইটে গিয়ে ৩০ সেকেন্ড অপেক্ষা করুন।</li><li>বিজ্ঞাপনে ক্লিক করে স্ক্রিনশট নিন।</li>`;
-        actionLink.innerHTML = 'ভিজিট ওয়েবসাইট';
-    } else if (tID && tID.startsWith('soc_')) {
-        taskTitle.innerHTML = '<i class="fab fa-youtube"></i> ফলো/সাবস্ক্রাইব';
-        stepList.innerHTML = `<li>চ্যানেল সাবস্ক্রাইব বা ফলো করুন।</li><li>সঠিকভাবে সম্পন্ন করে স্ক্রিনশট নিন।</li>`;
-        actionLink.innerHTML = 'কাজ শুরু করুন';
+        stepList.innerHTML = `<li>নিচের বাটনে ক্লিক করে ১৫ সেকেন্ড অপেক্ষা করুন।</li><li>বিজ্ঞাপনে ক্লিক করে স্ক্রিনশট নিন।</li>`;
+    } else {
+        taskTitle.innerHTML = '<i class="fab fa-youtube"></i> সোশ্যাল টাস্ক';
+        stepList.innerHTML = `<li>বাটনে ক্লিক করে ফলো/সাবস্ক্রাইব করুন।</li><li>১৫ সেকেন্ড পর স্ক্রিনশট জমা দিন।</li>`;
     }
-
     actionLink.href = taskLinks[tID] || "#";
 
+    // টাইমার লজিক
+    function startTimer() {
+        document.getElementById('timerDisplay').style.display = 'block';
+        let timeLeft = 15;
+        const timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('seconds').innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                document.getElementById('timerDisplay').style.display = 'none';
+                document.getElementById('uploadSection').style.display = 'block';
+            }
+        }, 1000);
+    }
+
+    // ছবি প্রিভিউ
     const fileInput = document.getElementById('fileInput');
-    const imgPreview = document.getElementById('imgPreview');
     fileInput.onchange = () => {
         const [file] = fileInput.files;
         if (file) {
-            imgPreview.src = URL.createObjectURL(file);
-            imgPreview.style.display = 'block';
-            document.getElementById('statusText').innerText = "ছবি পরিবর্তন করুন";
+            document.getElementById('imgPreview').src = URL.createObjectURL(file);
+            document.getElementById('imgPreview').style.display = 'block';
         }
     }
 
+    // ডাটাবেসে পাঠানোর লজিক
     document.getElementById('proofForm').onsubmit = async (e) => {
         e.preventDefault();
-        if(!uID || !tID) return alert('Data Missing!');
-
         const btn = document.getElementById('submitBtn');
-        const spinner = document.getElementById('spinner');
-        const btnText = document.getElementById('btnText');
-
         btn.disabled = true;
-        spinner.style.display = 'block';
-        btnText.innerText = 'আপলোড হচ্ছে...';
+        document.getElementById('spinner').style.display = 'block';
 
         const formData = new FormData();
         formData.append('user_id', uID);
@@ -146,21 +128,15 @@
                 body: formData
             });
             const data = await response.json();
-            if(data.status === 'success') {
-                alert('সফল হয়েছে! পেন্ডিং এ আছে।');
-                window.location.href = "https://workly.rf.gd/tasks.php";
-            } else {
-                alert('ভুল: ' + data.message);
-            }
+            alert(data.message);
+            if(data.status === 'success') window.location.href = "https://workly.rf.gd/tasks.php";
         } catch (err) {
             alert('সার্ভার এরর!');
         } finally {
             btn.disabled = false;
-            spinner.style.display = 'none';
-            btnText.innerText = 'সাবমিট করুন';
+            document.getElementById('spinner').style.display = 'none';
         }
     };
 </script>
-
 </body>
 </html>
