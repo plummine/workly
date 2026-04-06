@@ -11,22 +11,27 @@
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; }
         
-        .header-card { background: linear-gradient(135deg, #1a1a1a, #222); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #333; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .header-card h2 { color: var(--primary); margin: 5px 0; font-size: 28px; }
+        /* হেডার ডিজাইন */
+        .header-card { background: linear-gradient(135deg, #1a1a1a, #222); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #333; margin-bottom: 20px; }
+        .header-card h2 { color: var(--primary); margin: 0; font-size: 28px; letter-spacing: 1px; }
 
+        /* নির্দেশনা বক্স */
+        .instruction-box { background: rgba(255, 71, 87, 0.05); border: 1px solid #ff4757; padding: 15px; border-radius: 15px; font-size: 13px; margin-bottom: 20px; color: #ffb8b8; line-height: 1.6; }
+
+        /* ট্যাব বাটন */
         .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .tab-btn { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid #333; color: #fff; transition: 0.3s; }
         .tab-btn.active { border-color: var(--primary); background: rgba(0, 212, 255, 0.1); color: var(--primary); }
         .tab-btn i { font-size: 20px; margin-bottom: 5px; display: block; }
 
-        .instruction-box { background: rgba(255, 71, 87, 0.05); border: 1px solid #ff4757; padding: 15px; border-radius: 15px; font-size: 13px; margin-bottom: 20px; color: #ffb8b8; line-height: 1.6; }
-
+        /* টাস্ক লিস্ট ডিজাইন */
         .task-list { background: var(--card); border-radius: 20px; padding: 15px; border: 1px solid #222; }
         .task-row { background: #1f1f1f; margin-bottom: 12px; padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
         .t-info h4 { margin: 0; font-size: 14px; color: #eee; }
         .t-info p { margin: 3px 0 0; font-size: 11px; color: var(--gold); font-weight: bold; }
 
-        .btn-start { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 12px; border: none; cursor: pointer; }
+        .btn-start { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 10px; font-weight: bold; font-size: 12px; border: none; cursor: pointer; }
+        
         .hidden { display: none; }
     </style>
 </head>
@@ -34,15 +39,14 @@
 
 <div class="container">
     <div class="header-card">
-        <img src="uploads/workly.png" style="width: 60px; margin-bottom: 10px;" alt="Workly">
-        <h2>Workly Tasks</h2>
+        <h2>Workly</h2>
     </div>
 
     <div class="instruction-box">
         <i class="fas fa-exclamation-circle"></i> <b>নির্দেশনা:</b><br>
         ১. লিংকে ক্লিক করার পর ১ মিনিট ভিজিট করুন এবং অ্যাডগুলোতে ৩-৪ বার ক্লিক করুন।<br>
-        ২. অবশ্যই Chrome ব্রাউজার ব্যবহার করবেন। VPN বা Ad-Blocker ব্যবহার করা কঠোরভাবে নিষেধ।<br>
-        ৩. <b>এখান থেকে কাজ সম্পন্ন করে স্ক্রিনশট নিন এবং আমাদের মূল ওয়েবসাইটে গিয়ে সাবমিট করুন।</b>
+        ২. অবশ্যই Chrome ব্রাউজার ব্যবহার করবেন। VPN বা Ad-Blocker নিষেধ।<br>
+        ৩. <b>কাজ সম্পন্ন করে স্ক্রিনশট নিন এবং আমাদের মূল ওয়েবসাইটে সাবমিট করুন।</b>
     </div>
 
     <div class="tabs">
@@ -56,79 +60,41 @@
 
     <div id="ads-section">
         <div class="task-list">
-            <?php
-            $ad_links = [
-                "https://freeshort.info/YV5Oqn", "https://freeshort.info/a2UERh", "https://freeshort.info/JexUo0",
-                "https://freeshort.info/RkAWLv", "https://freeshort.info/i6N4oj", "https://freeshort.info/HDClK0",
-                "https://freeshort.info/esqIC1", "https://freeshort.info/rTT7MV", "https://freeshort.info/L3yxE0",
-                "https://freeshort.info/7rRj5U", "https://freeshort.info/SSIFOI", "https://freeshort.info/arRy2V",
-                "https://freeshort.info/DrdvZN", "https://freeshort.info/eYanrA", "https://freeshort.info/4G5FY4",
-                "https://freeshort.info/VhzfEu", "https://freeshort.info/rTT7MV", "https://freeshort.info/e2jBxF",
-                "https://freeshort.info/7n9DG6", "https://freeshort.info/tYTjo1"
-            ];
-            foreach ($ad_links as $i => $link) {
-                echo '<div class="task-row">
-                        <div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #'.($i+1).'</h4><p>Reward: ৳ 0.20</p></div>
-                        <button onclick="openTask(\''.$link.'\')" class="btn-start">স্টার্ট</button>
-                      </div>';
-            }
-            ?>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/YV5Oqn')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #২</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/a2UERh')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৩</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/JexUo0')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৪</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/RkAWLv')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৫</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/i6N4oj')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৬</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/HDClK0')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৭</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/esqIC1')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৮</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/rTT7MV')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #৯</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/L3yxE0')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১০</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/7rRj5U')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১১</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/SSIFOI')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১২</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/arRy2V')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৩</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/DrdvZN')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৪</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/eYanrA')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৫</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/4G5FY4')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৬</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/VhzfEu')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৭</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/rTT7MV')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৮</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/e2jBxF')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #১৯</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/7n9DG6')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>অ্যাড ক্লিক টাস্ক #২০</h4><p>Reward: ৳ 0.20</p></div><button onclick="openTask('https://freeshort.info/tYTjo1')" class="btn-start">স্টার্ট</button></div>
         </div>
     </div>
 
     <div id="social-section" class="hidden">
         <div class="task-list">
-            
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #১</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #২</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৩</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৪</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৫</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৬</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৭</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৮</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৯</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
-            <div class="task-row">
-                <div class="t-info"><h4>ফলো/সাবস্ক্রাইব #১০</h4><p>Reward: ৳ 0.50</p></div>
-                <button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button>
-            </div>
-
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #১</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #২</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৩</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৪</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৫</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৬</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৭</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৮</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #৯</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
+            <div class="task-row"><div class="t-info"><h4>ফলো/সাবস্ক্রাইব #১০</h4><p>Reward: ৳ 0.50</p></div><button onclick="openTask('এখানে লিংক দিন')" class="btn-start">স্টার্ট</button></div>
         </div>
     </div>
 </div>
@@ -162,4 +128,5 @@
 </script>
 
 </body>
-</html>
+                                                                                                                                                                                       </html>
+                                                                                                                                                                                       
