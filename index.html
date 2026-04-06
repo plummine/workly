@@ -10,15 +10,18 @@
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; }
         
-        /* Header Title */
-        .header-title { text-align: center; color: var(--primary); font-weight: bold; font-size: 20px; margin: 10px 0 25px; text-transform: uppercase; letter-spacing: 2px; }
+        .header-title { text-align: center; color: var(--primary); font-weight: bold; font-size: 22px; margin: 15px 0; text-transform: uppercase; }
+
+        /* গুরুত্বপূর্ণ নির্দেশনা */
+        .notice-board { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff3333; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; color: #ffcccc; }
+        .notice-board i { color: #ff3333; margin-right: 5px; }
 
         /* Tabs Section */
-        .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        .tab { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid #333; text-decoration: none; color: #fff; position: relative; overflow: hidden; cursor: pointer; }
-        .tab.active { border-color: var(--primary); background: rgba(0, 212, 255, 0.15); }
-        .tab i { font-size: 20px; color: var(--primary); margin-bottom: 5px; display: block; }
-        .tab span { font-size: 10px; font-weight: 600; }
+        .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
+        .tab { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid #333; cursor: pointer; color: #fff; position: relative; overflow: hidden; }
+        .tab.active { border-color: var(--primary); background: rgba(0, 212, 255, 0.1); }
+        .tab i { font-size: 18px; color: var(--primary); margin-bottom: 5px; display: block; }
+        .tab span { font-size: 9px; font-weight: 600; }
         .coming-tag { position: absolute; top: 4px; right: -18px; background: #ff3333; color: #fff; font-size: 7px; padding: 1px 15px; transform: rotate(45deg); font-weight: bold; }
 
         /* Task List Section */
@@ -28,24 +31,31 @@
         .t-info h4 { margin: 0; font-size: 14px; }
         .t-info p { margin: 4px 0 0; font-size: 12px; color: var(--primary); font-weight: bold; }
         
-        .btn-start { background: var(--primary); color: #000; padding: 9px 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 12px; border: none; cursor: pointer; }
+        .btn-start { background: var(--primary); color: #000; padding: 9px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
         .badge-pending { background: #5a4a00; color: #ffcc00; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: bold; }
 
-        /* Modal / Popup */
-        #taskModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: var(--card); width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto; border-radius: 25px; padding: 25px; border: 1px solid #333; text-align: center; position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; color: #666; font-size: 24px; cursor: pointer; }
+        /* Modal Popup */
+        #taskModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 50px; overflow-y: auto; }
+        .modal-content { background: var(--card); width: 90%; max-width: 400px; border-radius: 25px; padding: 25px; border: 1px solid #333; text-align: center; position: relative; margin-bottom: 50px; }
+        .close-modal { position: absolute; top: 15px; right: 20px; color: #666; font-size: 26px; cursor: pointer; }
+        
         .timer-circle { width: 70px; height: 70px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold; color: var(--primary); }
         
-        .upload-box { background: #1a1a1a; border: 2px dashed #444; border-radius: 15px; padding: 25px; cursor: pointer; margin-top: 15px; display: block; }
-        #imgPreview { width: 100%; max-height: 200px; object-fit: contain; margin-top: 15px; border-radius: 12px; display: none; border: 1px solid #333; }
+        /* Photo Upload & Preview */
+        .upload-box { background: #1a1a1a; border: 2px dashed #444; border-radius: 15px; padding: 20px; cursor: pointer; margin-top: 15px; display: block; }
+        #imgPreview { width: 100px; height: auto; max-height: 120px; object-fit: cover; margin: 15px auto; border-radius: 8px; display: none; border: 1px solid var(--primary); }
+        
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-title">Workly Task List</div>
+    <div class="header-title">Workly Tasks</div>
+
+    <div class="notice-board">
+        <i class="fas fa-exclamation-triangle"></i> <b>নির্দেশনা:</b> কাজ করার সময় অবশ্যই ব্রাউজারের <b>Ad-Blocker</b> বন্ধ রাখুন। অন্যথায় পেমেন্ট পেতে সমস্যা হতে পারে।
+    </div>
 
     <div class="tabs">
         <div class="tab active" onclick="switchTab('ad')"><i class="fas fa-mouse-pointer"></i><span>অ্যাড ক্লিক</span></div>
@@ -56,8 +66,7 @@
 
     <div class="task-list">
         <p id="listDesc" class="section-title">প্রতিদিন ২০টি কাজ (২৪ ঘণ্টা পর পর)</p>
-        <div id="tasksContainer">
-            </div>
+        <div id="tasksContainer"></div>
     </div>
 </div>
 
@@ -66,33 +75,35 @@
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <h3 id="modalTitle" style="color:var(--primary); margin-bottom:10px;">অপেক্ষা করুন</h3>
         
-        <a href="#" id="directLink" target="_blank" class="btn-start" style="display:inline-block; padding: 15px 30px;" onclick="startTimer()">লিংকে প্রবেশ করুন</a>
+        <a href="#" id="directLink" target="_blank" class="btn-start" style="padding: 15px 30px;" onclick="startTimer()">লিংকে প্রবেশ করুন</a>
         
         <div id="timerArea" class="hidden">
             <div class="timer-circle" id="seconds">15</div>
-            <p style="font-size:13px; color:var(--primary);">সময় শেষ হওয়া পর্যন্ত অপেক্ষা করুন</p>
+            <p style="font-size:13px; color:#aaa;">১৫ সেকেন্ড লিংকে ভিজিট করুন</p>
         </div>
 
         <div id="uploadArea" class="hidden">
+            <p style="font-size: 13px; color: #ddd;">কাজের প্রমাণ (স্ক্রিনশট) দিন:</p>
             <form id="proofForm">
                 <label for="fileInput" class="upload-box">
-                    <i class="fas fa-cloud-upload-alt" style="font-size:35px; color:var(--primary);"></i>
-                    <p style="font-size:12px; color:#888; margin-top:10px;">স্ক্রিনশট সিলেক্ট করুন</p>
-                    <input type="file" id="fileInput" accept="image/*" required>
+                    <i class="fas fa-cloud-upload-alt" style="font-size:30px; color:var(--primary);"></i>
+                    <p style="font-size:11px; color:#888; margin-top:10px;">ছবি সিলেক্ট করুন</p>
+                    <input type="file" id="fileInput" accept="image/*" class="hidden" required>
                 </label>
                 <img id="imgPreview">
-                <button type="submit" class="btn-start" style="width:100%; margin-top:20px; padding:15px;" id="submitBtn">সাবমিট করুন</button>
+                <button type="submit" class="btn-start" style="width:100%; margin-top:15px; padding:15px;" id="submitBtn">সাবমিট করুন</button>
             </form>
         </div>
     </div>
 </div>
 
 <script>
+    // URL থেকে ইউজার আইডি নেওয়া (dashboard.php থেকে পাঠানো)
     const urlParams = new URLSearchParams(window.location.search);
     const uID = urlParams.get('user_id') || '0';
     let currentTab = 'ad';
 
-    // ৩০টি লিঙ্কের সিরিয়াল
+    // টাস্ক লিঙ্কসমূহ (প্রয়োজনীয় লিঙ্ক এখানে বসাও)
     const taskLinks = {
         "ad_1": "LINK_HERE", "ad_2": "LINK_HERE", "ad_3": "LINK_HERE", "ad_4": "LINK_HERE", "ad_5": "LINK_HERE",
         "ad_6": "LINK_HERE", "ad_7": "LINK_HERE", "ad_8": "LINK_HERE", "ad_9": "LINK_HERE", "ad_10": "LINK_HERE",
@@ -111,36 +122,33 @@
 
     async function renderTasks() {
         const container = document.getElementById('tasksContainer');
-        const desc = document.getElementById('listDesc');
-        container.innerHTML = '<p style="text-align:center; color:#666;">লোডিং...</p>';
+        container.innerHTML = '<p style="text-align:center; color:#666; font-size:12px;">টাস্ক লোড হচ্ছে...</p>';
         
-        // মেইন ওয়েবসাইট থেকে পেন্ডিং স্ট্যাটাস চেক করা
         try {
+            // মেইন ওয়েবসাইট থেকে পেন্ডিং স্ট্যাটাস চেক
             const response = await fetch(`https://workly.rf.gd/get_status.php?user_id=${uID}`);
-            const doneTasks = await response.json(); // এটি পেন্ডিং বা সম্পন্ন টাস্ক আইডির লিস্ট দিবে
+            const doneTasks = await response.json();
 
             container.innerHTML = '';
-            if(currentTab === 'ad') {
-                desc.innerText = "প্রতিদিন ২০টি কাজ (২৪ ঘণ্টা পর পর)";
-                for(let i=1; i<=20; i++) buildRow(`ক্লিক অ্যাড #${i}`, "0.20", `ad_${i}`, doneTasks);
-            } else {
-                desc.innerText = "ফলো ও সাবস্ক্রাইব - শুধুমাত্র একবার";
-                for(let i=1; i<=10; i++) buildRow(`ফলো/সাবস্ক্রাইব #${i}`, "0.50", `soc_${i}`, doneTasks);
+            const count = (currentTab === 'ad') ? 20 : 10;
+            const prefix = (currentTab === 'ad') ? 'ad_' : 'soc_';
+            const titlePrefix = (currentTab === 'ad') ? 'ক্লিক অ্যাড #' : 'ফলো/সাবস্ক্রাইব #';
+            const reward = (currentTab === 'ad') ? '0.20' : '0.50';
+
+            for(let i=1; i<=count; i++){
+                const tid = prefix + i;
+                const isDone = doneTasks.includes(tid);
+                const div = document.createElement('div');
+                div.className = 'task-card';
+                div.innerHTML = `
+                    <div class="t-info"><h4>${titlePrefix}${i}</h4><p>৳ ${reward}</p></div>
+                    ${isDone ? '<span class="badge-pending">পেন্ডিং</span>' : `<button class="btn-start" onclick="openWork('${tid}', '${titlePrefix}${i}')">স্টার্ট</button>`}
+                `;
+                container.appendChild(div);
             }
         } catch (e) {
-            container.innerHTML = '<p style="color:red; text-align:center;">নেটওয়ার্ক এরর!</p>';
+            container.innerHTML = '<p style="color:#ff3333; text-align:center; font-size:12px;">নেটওয়ার্ক এরর! পুনরায় চেষ্টা করুন।</p>';
         }
-    }
-
-    function buildRow(title, reward, id, doneList) {
-        const isDone = doneList.includes(id);
-        const div = document.createElement('div');
-        div.className = 'task-card';
-        div.innerHTML = `
-            <div class="t-info"><h4>${title}</h4><p>৳ ${reward}</p></div>
-            ${isDone ? '<span class="badge-pending">পেন্ডিং</span>' : `<button class="btn-start" onclick="openWork('${id}', '${title}')">স্টার্ট</button>`}
-        `;
-        document.getElementById('tasksContainer').appendChild(div);
     }
 
     let activeTaskId = "";
@@ -153,6 +161,7 @@
         document.getElementById('timerArea').classList.add('hidden');
         document.getElementById('uploadArea').classList.add('hidden');
         document.getElementById('imgPreview').style.display = 'none';
+        document.getElementById('proofForm').reset();
     }
 
     function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
@@ -172,13 +181,15 @@
         }, 1000);
     }
 
+    // ইমেজ প্রিভিউ ছোট রাখা হয়েছে যাতে সাবমিট বাটন দেখা যায়
     document.getElementById('fileInput').onchange = function() {
         const [file] = this.files;
         if (file) {
             const preview = document.getElementById('imgPreview');
             preview.src = URL.createObjectURL(file);
             preview.style.display = 'block';
-            setTimeout(() => { document.getElementById('submitBtn').scrollIntoView({ behavior: 'smooth' }); }, 150);
+            // ছবি সিলেক্ট করলে বাটন পর্যন্ত অটোমেটিক স্ক্রল করবে
+            setTimeout(() => { document.getElementById('submitBtn').scrollIntoView({ behavior: 'smooth' }); }, 100);
         }
     }
 
@@ -193,13 +204,14 @@
         formData.append('screenshot', document.getElementById('fileInput').files[0]);
 
         try {
+            //
             const res = await fetch('https://workly.rf.gd/upload_handler.php', { method: 'POST', body: formData });
             const data = await res.json();
             if(data.status === 'success') {
-                alert("সফলভাবে জমা হয়েছে সোনা!");
+                alert("আপনার কাজ সফলভাবে জমা হয়েছে!");
                 location.reload(); 
             } else { alert(data.message); }
-        } catch (err) { alert("সার্ভার সমস্যা!"); } 
+        } catch (err) { alert("সার্ভার সমস্যা! আবার চেষ্টা করুন।"); } 
         finally { btn.innerText = "সাবমিট করুন"; btn.disabled = false; }
     };
 
