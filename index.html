@@ -2,17 +2,18 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly Tasks - GitHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Workly Task Zone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #00d4ff; --bg: #0d0d0d; --card: #161616; }
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; }
         
-        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
-        .back-btn { text-decoration: none; color: #fff; background: #1a1a1a; padding: 10px 15px; border-radius: 12px; border: 1px solid #333; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        /* Header Title */
+        .header-title { text-align: center; color: var(--primary); font-weight: bold; font-size: 20px; margin: 10px 0 25px; text-transform: uppercase; letter-spacing: 2px; }
 
+        /* Tabs Section */
         .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
         .tab { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid #333; text-decoration: none; color: #fff; position: relative; overflow: hidden; cursor: pointer; }
         .tab.active { border-color: var(--primary); background: rgba(0, 212, 255, 0.15); }
@@ -20,29 +21,31 @@
         .tab span { font-size: 10px; font-weight: 600; }
         .coming-tag { position: absolute; top: 4px; right: -18px; background: #ff3333; color: #fff; font-size: 7px; padding: 1px 15px; transform: rotate(45deg); font-weight: bold; }
 
+        /* Task List Section */
         .task-list { background: var(--card); border-radius: 22px; padding: 18px; border: 1px solid #222; }
         .section-title { color: var(--primary); font-size: 13px; margin-bottom: 15px; font-weight: 600; }
         .task-card { background: #1f1f1f; margin-bottom: 12px; padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
         .t-info h4 { margin: 0; font-size: 14px; }
         .t-info p { margin: 4px 0 0; font-size: 12px; color: var(--primary); font-weight: bold; }
+        
         .btn-start { background: var(--primary); color: #000; padding: 9px 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 12px; border: none; cursor: pointer; }
+        .badge-pending { background: #5a4a00; color: #ffcc00; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: bold; }
 
-        #taskModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card); width: 100%; max-width: 400px; border-radius: 25px; padding: 25px; border: 1px solid #333; text-align: center; position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; color: #666; font-size: 20px; cursor: pointer; }
-        .timer-circle { width: 70px; height: 70px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold; color: var(--primary); box-shadow: 0 0 15px rgba(0, 212, 255, 0.2); }
+        /* Modal / Popup */
+        #taskModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: var(--card); width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto; border-radius: 25px; padding: 25px; border: 1px solid #333; text-align: center; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; color: #666; font-size: 24px; cursor: pointer; }
+        .timer-circle { width: 70px; height: 70px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold; color: var(--primary); }
+        
         .upload-box { background: #1a1a1a; border: 2px dashed #444; border-radius: 15px; padding: 25px; cursor: pointer; margin-top: 15px; display: block; }
-        #imgPreview { width: 100%; margin-top: 15px; border-radius: 12px; display: none; border: 1px solid #333; }
+        #imgPreview { width: 100%; max-height: 200px; object-fit: contain; margin-top: 15px; border-radius: 12px; display: none; border: 1px solid #333; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-nav">
-        <a href="https://workly.rf.gd/dashboard.php" class="back-btn"><i class="fas fa-arrow-left"></i> ফিরে যান</a>
-        <i class="fas fa-home" style="color: var(--primary); font-size: 20px;"></i>
-    </div>
+    <div class="header-title">Workly Task List</div>
 
     <div class="tabs">
         <div class="tab active" onclick="switchTab('ad')"><i class="fas fa-mouse-pointer"></i><span>অ্যাড ক্লিক</span></div>
@@ -53,28 +56,28 @@
 
     <div class="task-list">
         <p id="listDesc" class="section-title">প্রতিদিন ২০টি কাজ (২৪ ঘণ্টা পর পর)</p>
-        <div id="tasksContainer"></div>
+        <div id="tasksContainer">
+            </div>
     </div>
 </div>
 
 <div id="taskModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3 id="modalTitle" style="color:var(--primary); margin-bottom:10px;">কাজ শুরু করুন</h3>
-        <p id="modalStep" style="font-size:13px; color:#aaa; margin-bottom:20px;">নিচের বাটনে ক্লিক করে ১৫ সেকেন্ড অপেক্ষা করুন।</p>
+        <h3 id="modalTitle" style="color:var(--primary); margin-bottom:10px;">অপেক্ষা করুন</h3>
         
         <a href="#" id="directLink" target="_blank" class="btn-start" style="display:inline-block; padding: 15px 30px;" onclick="startTimer()">লিংকে প্রবেশ করুন</a>
         
         <div id="timerArea" class="hidden">
             <div class="timer-circle" id="seconds">15</div>
-            <p style="font-size:13px; color:var(--primary); letter-spacing:1px;">অপেক্ষা করুন...</p>
+            <p style="font-size:13px; color:var(--primary);">সময় শেষ হওয়া পর্যন্ত অপেক্ষা করুন</p>
         </div>
 
         <div id="uploadArea" class="hidden">
             <form id="proofForm">
                 <label for="fileInput" class="upload-box">
                     <i class="fas fa-cloud-upload-alt" style="font-size:35px; color:var(--primary);"></i>
-                    <p id="statusText" style="font-size:12px; color:#888; margin:10px 0 0;">স্ক্রিনশট সিলেক্ট করুন</p>
+                    <p style="font-size:12px; color:#888; margin-top:10px;">স্ক্রিনশট সিলেক্ট করুন</p>
                     <input type="file" id="fileInput" accept="image/*" required>
                 </label>
                 <img id="imgPreview">
@@ -86,44 +89,17 @@
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const uID = urlParams.get('user_id') || 'GUEST';
+    const uID = urlParams.get('user_id') || '0';
     let currentTab = 'ad';
 
-    // --- ৩০টি লিঙ্কের সিরিয়াল ---
+    // ৩০টি লিঙ্কের সিরিয়াল
     const taskLinks = {
-        // ২০টি অ্যাড ক্লিক লিঙ্ক
-        "ad_1": "লিঙ্ক_এখানে_বসাও",
-        "ad_2": "লিঙ্ক_এখানে_বসাও",
-        "ad_3": "লিঙ্ক_এখানে_বসাও",
-        "ad_4": "লিঙ্ক_এখানে_বসাও",
-        "ad_5": "লিঙ্ক_এখানে_বসাও",
-        "ad_6": "লিঙ্ক_এখানে_বসাও",
-        "ad_7": "লিঙ্ক_এখানে_বসাও",
-        "ad_8": "লিঙ্ক_এখানে_বসাও",
-        "ad_9": "লিঙ্ক_এখানে_বসাও",
-        "ad_10": "লিঙ্ক_এখানে_বসাও",
-        "ad_11": "লিঙ্ক_এখানে_বসাও",
-        "ad_12": "লিঙ্ক_এখানে_বসাও",
-        "ad_13": "লিঙ্ক_এখানে_বসাও",
-        "ad_14": "লিঙ্ক_এখানে_বসাও",
-        "ad_15": "লিঙ্ক_এখানে_বসাও",
-        "ad_16": "লিঙ্ক_এখানে_বসাও",
-        "ad_17": "লিঙ্ক_এখানে_বসাও",
-        "ad_18": "লিঙ্ক_এখানে_বসাও",
-        "ad_19": "লিঙ্ক_এখানে_বসাও",
-        "ad_20": "লিঙ্ক_এখানে_বসাও",
-
-        // ১০টি সোশ্যাল লিঙ্ক
-        "soc_1": "লিঙ্ক_এখানে_বসাও",
-        "soc_2": "লিঙ্ক_এখানে_বসাও",
-        "soc_3": "লিঙ্ক_এখানে_বসাও",
-        "soc_4": "লিঙ্ক_এখানে_বসাও",
-        "soc_5": "লিঙ্ক_এখানে_বসাও",
-        "soc_6": "লিঙ্ক_এখানে_বসাও",
-        "soc_7": "লিঙ্ক_এখানে_বসাও",
-        "soc_8": "লিঙ্ক_এখানে_বসাও",
-        "soc_9": "লিঙ্ক_এখানে_বসাও",
-        "soc_10": "লিঙ্ক_এখানে_বসাও"
+        "ad_1": "LINK_HERE", "ad_2": "LINK_HERE", "ad_3": "LINK_HERE", "ad_4": "LINK_HERE", "ad_5": "LINK_HERE",
+        "ad_6": "LINK_HERE", "ad_7": "LINK_HERE", "ad_8": "LINK_HERE", "ad_9": "LINK_HERE", "ad_10": "LINK_HERE",
+        "ad_11": "LINK_HERE", "ad_12": "LINK_HERE", "ad_13": "LINK_HERE", "ad_14": "LINK_HERE", "ad_15": "LINK_HERE",
+        "ad_16": "LINK_HERE", "ad_17": "LINK_HERE", "ad_18": "LINK_HERE", "ad_19": "LINK_HERE", "ad_20": "LINK_HERE",
+        "soc_1": "LINK_HERE", "soc_2": "LINK_HERE", "soc_3": "LINK_HERE", "soc_4": "LINK_HERE", "soc_5": "LINK_HERE",
+        "soc_6": "LINK_HERE", "soc_7": "LINK_HERE", "soc_8": "LINK_HERE", "soc_9": "LINK_HERE", "soc_10": "LINK_HERE"
     };
 
     function switchTab(type) {
@@ -133,26 +109,36 @@
         renderTasks();
     }
 
-    function renderTasks() {
+    async function renderTasks() {
         const container = document.getElementById('tasksContainer');
         const desc = document.getElementById('listDesc');
-        container.innerHTML = '';
+        container.innerHTML = '<p style="text-align:center; color:#666;">লোডিং...</p>';
         
-        if(currentTab === 'ad') {
-            desc.innerText = "প্রতিদিন ২০টি কাজ (২৪ ঘণ্টা পর পর)";
-            for(let i=1; i<=20; i++) addTaskRow(`ক্লিক অ্যাড #${i}`, "0.20", `ad_${i}`);
-        } else {
-            desc.innerText = "ফলো ও সাবস্ক্রাইব - শুধুমাত্র একবার";
-            for(let i=1; i<=10; i++) addTaskRow(`ফলো/সাবস্ক্রাইব #${i}`, "0.50", `soc_${i}`);
+        // মেইন ওয়েবসাইট থেকে পেন্ডিং স্ট্যাটাস চেক করা
+        try {
+            const response = await fetch(`https://workly.rf.gd/get_status.php?user_id=${uID}`);
+            const doneTasks = await response.json(); // এটি পেন্ডিং বা সম্পন্ন টাস্ক আইডির লিস্ট দিবে
+
+            container.innerHTML = '';
+            if(currentTab === 'ad') {
+                desc.innerText = "প্রতিদিন ২০টি কাজ (২৪ ঘণ্টা পর পর)";
+                for(let i=1; i<=20; i++) buildRow(`ক্লিক অ্যাড #${i}`, "0.20", `ad_${i}`, doneTasks);
+            } else {
+                desc.innerText = "ফলো ও সাবস্ক্রাইব - শুধুমাত্র একবার";
+                for(let i=1; i<=10; i++) buildRow(`ফলো/সাবস্ক্রাইব #${i}`, "0.50", `soc_${i}`, doneTasks);
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="color:red; text-align:center;">নেটওয়ার্ক এরর!</p>';
         }
     }
 
-    function addTaskRow(title, reward, id) {
+    function buildRow(title, reward, id, doneList) {
+        const isDone = doneList.includes(id);
         const div = document.createElement('div');
         div.className = 'task-card';
         div.innerHTML = `
             <div class="t-info"><h4>${title}</h4><p>৳ ${reward}</p></div>
-            <button class="btn-start" onclick="openWork('${id}', '${title}')">স্টার্ট</button>
+            ${isDone ? '<span class="badge-pending">পেন্ডিং</span>' : `<button class="btn-start" onclick="openWork('${id}', '${title}')">স্টার্ট</button>`}
         `;
         document.getElementById('tasksContainer').appendChild(div);
     }
@@ -163,12 +149,10 @@
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('directLink').href = taskLinks[id] || "#";
         document.getElementById('taskModal').style.display = 'flex';
-        // Reset
         document.getElementById('directLink').classList.remove('hidden');
         document.getElementById('timerArea').classList.add('hidden');
         document.getElementById('uploadArea').classList.add('hidden');
         document.getElementById('imgPreview').style.display = 'none';
-        document.getElementById('proofForm').reset();
     }
 
     function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
@@ -191,15 +175,17 @@
     document.getElementById('fileInput').onchange = function() {
         const [file] = this.files;
         if (file) {
-            document.getElementById('imgPreview').src = URL.createObjectURL(file);
-            document.getElementById('imgPreview').style.display = 'block';
+            const preview = document.getElementById('imgPreview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            setTimeout(() => { document.getElementById('submitBtn').scrollIntoView({ behavior: 'smooth' }); }, 150);
         }
     }
 
     document.getElementById('proofForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.innerText = "আপলোড হচ্ছে..."; btn.disabled = true;
+        btn.innerText = "জমা হচ্ছে..."; btn.disabled = true;
 
         const formData = new FormData();
         formData.append('user_id', uID);
@@ -209,9 +195,11 @@
         try {
             const res = await fetch('https://workly.rf.gd/upload_handler.php', { method: 'POST', body: formData });
             const data = await res.json();
-            alert(data.message);
-            if(data.status === 'success') location.reload();
-        } catch (err) { alert("সার্ভার এরর!"); } 
+            if(data.status === 'success') {
+                alert("সফলভাবে জমা হয়েছে সোনা!");
+                location.reload(); 
+            } else { alert(data.message); }
+        } catch (err) { alert("সার্ভার সমস্যা!"); } 
         finally { btn.innerText = "সাবমিট করুন"; btn.disabled = false; }
     };
 
