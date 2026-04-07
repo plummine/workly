@@ -8,85 +8,79 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #00d4ff; --bg: #0d0d0d; --card: #161616; --gold: #ffd700; --red: #ff4757; }
-        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
-        .container { max-width: 500px; margin: auto; }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; overflow-x: hidden; }
+        .container { max-width: 450px; margin: auto; }
         
-        /* লক স্ক্রিন ডিজাইন */
+        /* লক স্ক্রিন রি-ডিজাইন (ছোট করা হয়েছে) */
         #lock-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(13, 13, 13, 0.98); z-index: 1000000;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
+            display: flex; align-items: center; justify-content: center; padding: 15px;
         }
         .lock-card {
-            background: var(--card); border: 2px solid var(--primary); padding: 30px 20px;
-            border-radius: 25px; text-align: center; width: 100%; max-width: 350px;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            background: var(--card); border: 1.5px solid var(--primary); padding: 20px 15px;
+            border-radius: 20px; text-align: center; width: 100%; max-width: 320px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
-        .join-btn { display: block; width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; cursor: pointer; border: none; text-align: center; }
-        .btn-channel { background: #24A1DE; color: white; }
-        .btn-group { background: #0088cc; color: white; }
-        .btn-unlock { background: var(--primary); color: #000; margin-top: 10px; }
+        .lock-card h2 { font-size: 18px; margin-bottom: 10px; }
+        .lock-card p { font-size: 12px; color: #ccc; margin-bottom: 15px; }
 
-        /* হেডার ও ট্যাব */
-        .header-card { background: linear-gradient(135deg, #1a1a1a, #222); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #333; margin-bottom: 20px; }
-        .header-card h2 { color: var(--primary); margin: 0; font-size: 28px; }
-        .instruction-box { background: rgba(255, 71, 87, 0.15); border: 2px solid var(--red); padding: 15px; border-radius: 20px; margin-bottom: 25px; color: #fff; font-size: 13px; line-height: 1.6; }
-        .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .tab-btn { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid #333; color: #fff; font-weight: bold; }
+        .join-btn { display: block; width: 100%; padding: 10px; margin-bottom: 8px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 13px; border: none; cursor: pointer; text-align: center; color: white; }
+        .btn-channel { background: #24A1DE; }
+        .btn-group { background: #0088cc; }
+        .btn-unlock { background: var(--primary); color: #000; margin-top: 5px; }
+
+        /* হেডার ও ট্যাব (সাইজ অপ্টিমাইজড) */
+        .header-card { padding: 12px; text-align: center; margin-bottom: 15px; }
+        .header-card h2 { color: var(--primary); margin: 0; font-size: 22px; }
+
+        .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { background: var(--card); padding: 10px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #333; font-size: 13px; color: #fff; }
         .tab-btn.active { border-color: var(--primary); background: rgba(0, 212, 255, 0.1); color: var(--primary); }
 
-        /* টাস্ক লিস্ট ডিজাইন */
-        .task-list { background: var(--card); border-radius: 20px; padding: 15px; border: 1px solid #222; }
-        .task-row { background: #1f1f1f; margin-bottom: 12px; padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
-        .t-info h4 { margin: 0; font-size: 15px; color: #fff; }
-        .t-info p { margin: 5px 0 0; font-size: 12px; color: var(--gold); }
-        .btn-start { background: var(--primary); color: #000; padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; border: none; cursor: pointer; }
-        .btn-locked { background: #333 !important; color: #777 !important; cursor: not-allowed !important; }
+        /* টাস্ক লিস্ট */
+        .task-list { background: var(--card); border-radius: 15px; padding: 10px; border: 1px solid #222; }
+        .task-row { background: #1f1f1f; margin-bottom: 8px; padding: 12px; border-radius: 12px; border-left: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        .t-info h4 { margin: 0; font-size: 13px; color: #eee; }
+        .t-info p { margin: 2px 0 0; font-size: 10px; color: var(--gold); }
+        .btn-start { background: var(--primary); color: #000; padding: 7px 15px; border-radius: 8px; font-weight: bold; font-size: 11px; border: none; cursor: pointer; }
+        
         .hidden { display: none; }
 
-        /* টাইমার ওভারলে */
-        #timer-overlay { display: none; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); width: 85%; max-width: 320px; background: rgba(22, 22, 22, 0.98); z-index: 999999; padding: 20px; border-radius: 25px; border: 2px solid var(--primary); text-align: center; }
-        .timer-circle { width: 70px; height: 70px; border: 4px solid #333; border-top: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; margin: 10px auto; }
+        /* টাইমার পপআপ (অ্যাডজাস্টেড) */
+        #timer-overlay { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 80%; max-width: 280px; background: rgba(22, 22, 22, 0.98); z-index: 999999; padding: 15px; border-radius: 20px; border: 1.5px solid var(--primary); text-align: center; }
+        .timer-circle { width: 50px; height: 50px; border: 3px solid #333; border-top: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin: 8px auto; }
     </style>
 </head>
 <body>
 
 <div id="lock-screen">
     <div class="lock-card">
-        <i class="fab fa-telegram" style="font-size: 50px; color: var(--primary); margin-bottom: 15px;"></i>
+        <i class="fab fa-telegram" style="font-size: 40px; color: var(--primary); margin-bottom: 10px;"></i>
         <h2>জয়েন ভেরিফিকেশন</h2>
-        <p style="font-size: 13px; color: #ccc; margin-bottom: 20px;">নিচের চ্যানেল ও গ্রুপে জয়েন না থাকলে কাজের লিস্ট আনলক হবে না।</p>
-        <button onclick="openSocial('https://t.me/WorklySupportChannel')" class="join-btn btn-channel"><i class="fab fa-telegram-plane"></i> সাপোর্ট চ্যানেলে জয়েন</button>
-        <button onclick="openSocial('https://t.me/WorklyPaymentProofGroup')" class="join-btn btn-group"><i class="fas fa-check-circle"></i> পেমেন্ট গ্রুপে জয়েন</button>
+        <p>নিচের দুটি চ্যানেলে জয়েন থাকলে কাজের লিস্ট আনলক হবে।</p>
+        <button onclick="openSocial('https://t.me/WorklySupportChannel')" class="join-btn btn-channel">সাপোর্ট চ্যানেলে জয়েন</button>
+        <button onclick="openSocial('https://t.me/WorklyPaymentProofGroup')" class="join-btn btn-group">পেমেন্ট গ্রুপে জয়েন</button>
         <button id="verify-btn" onclick="verifyMembership()" class="join-btn btn-unlock">ভেরিফাই এবং আনলক</button>
     </div>
 </div>
 
 <div id="timer-overlay">
-    <div id="display-task-id" style="color:var(--gold); font-weight:bold;">Task Name</div>
+    <div id="display-task-id" style="color:var(--gold); font-weight:bold; font-size: 14px;">টাস্ক নম্বর</div>
     <div class="timer-circle" id="timer-count">15</div>
-    <div style="font-size: 11px; color: #ccc;">টাইমার ও আইডি সহ স্ক্রিনশট নিন</div>
+    <div style="font-size: 10px; color: #ccc;">স্ক্রিনশট নিয়ে রাখুন</div>
 </div>
 
 <div class="container">
     <div class="header-card"><h2>Workly Task</h2></div>
-
-    <div class="instruction-box">
-        <b style="color: var(--red);">জরুরি নির্দেশনা:</b> এড ব্লকার বা VPN ব্যবহার করলে পেমেন্ট পাবেন না। স্টার্ট বাটনে ক্লিক করার পর যে পেজ আসবে সেখানে ২-৩টি এডে ক্লিক করতে হবে।
-    </div>
 
     <div class="tabs">
         <div class="tab-btn active" id="tab-ads" onclick="switchTab('ads')">অ্যাড ক্লিক (২০)</div>
         <div class="tab-btn" id="tab-social" onclick="switchTab('social')">সাবস্ক্রাইব (১২)</div>
     </div>
 
-    <div id="ads-section">
-        <div class="task-list" id="ads-container"></div>
-    </div>
-
-    <div id="social-section" class="hidden">
-        <div class="task-list" id="social-container"></div>
-    </div>
+    <div id="ads-section"><div class="task-list" id="ads-container"></div></div>
+    <div id="social-section" class="hidden"><div class="task-list" id="social-container"></div></div>
 </div>
 
 <script>
@@ -95,31 +89,44 @@
     webapp.expand();
 
     const BOT_TOKEN = '8703552837:AAGGe0bJ9uJQaYK1BKJCcZUhdvs2cFJ1dBg';
-    const CHANNEL_ID = '@WorklySupportChannel';
+    const CHANNEL_ID = '@WorklySupportChannel'; 
     const GROUP_ID = '@WorklyPaymentProofGroup';
 
-    // ১. মেম্বারশিপ চেক
+    // ১. মেম্বারশিপ চেক করার উন্নত লজিক
     async function verifyMembership() {
         const user = webapp.initDataUnsafe.user;
-        if (!user) return alert("দয়া করে টেলিগ্রাম থেকে ওপেন করো সোনা!");
+        if (!user || !user.id) {
+            alert("টেলিগ্রাম থেকে পুনরায় অ্যাপটি ওপেন করুন!");
+            return;
+        }
         
         try {
-            const resC = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${CHANNEL_ID}&user_id=${user.id}`);
+            // API কলগুলো একই সাথে করার জন্য Promise.all ব্যবহার
+            const [resC, resG] = await Promise.all([
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${CHANNEL_ID}&user_id=${user.id}`),
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${GROUP_ID}&user_id=${user.id}`)
+            ]);
+            
             const dataC = await resC.json();
-            const resG = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${GROUP_ID}&user_id=${user.id}`);
             const dataG = await resG.json();
 
-            if (dataC.ok && dataG.ok && dataC.result.status !== 'left' && dataG.result.status !== 'left') {
+            // স্ট্যাটাস চেক (member, administrator, or creator)
+            const validStatus = ['member', 'administrator', 'creator'];
+            const isMemberC = dataC.ok && validStatus.includes(dataC.result.status);
+            const isMemberG = dataG.ok && validStatus.includes(dataG.result.status);
+
+            if (isMemberC && isMemberG) {
                 localStorage.setItem('workly_verified', 'true');
                 document.getElementById('lock-screen').style.display = 'none';
-                webapp.showAlert("ভেরিফিকেশন সফল হয়েছে!");
             } else {
-                alert("তুমি এখনো জয়েন করোনি! জয়েন করে আবার চেষ্টা করো।");
+                alert("আপনি এখনো জয়েন করেননি অথবা বট অ্যাডমিন নয়! সঠিক চ্যানেল ও গ্রুপে জয়েন করুন।");
             }
-        } catch (e) { alert("সার্ভার সমস্যা, আবার চেষ্টা করো!"); }
+        } catch (e) {
+            alert("সার্ভার ত্রুটি! আপনার নেটওয়ার্ক চেক করুন।");
+        }
     }
 
-    // ২০টি অ্যাড ক্লিক টাস্ক ডাটা
+    // ২০টি অ্যাড ক্লিক
     const adsTasks = [
         { id: 'ads_1', name: 'অ্যাড ক্লিক #১', url: 'https://freeshort.info/YV5Oqn', reward: '০.২০' },
         { id: 'ads_2', name: 'অ্যাড ক্লিক #২', url: 'https://freeshort.info/a2UERh', reward: '০.২০' },
@@ -143,7 +150,7 @@
         { id: 'ads_20', name: 'অ্যাড ক্লিক #২০', url: 'https://freeshort.info/tYTjo1', reward: '০.২০' }
     ];
 
-    // ১২টি সাবস্ক্রাইব টাস্ক ডাটা (নিচে লিংক বসানোর জায়গা আছে)
+    // ১২টি সাবস্ক্রাইব (এখানে লিংক বসাও)
     const socialTasks = [
         { id: 'soc_1', name: 'সাবস্ক্রাইব #১', url: 'লিংক_এখানে', reward: '০.৫০' },
         { id: 'soc_2', name: 'সাবস্ক্রাইব #২', url: 'লিংক_এখানে', reward: '০.৫০' },
@@ -159,7 +166,6 @@
         { id: 'soc_12', name: 'সাবস্ক্রাইব #১২', url: 'লিংক_এখানে', reward: '০.৫০' }
     ];
 
-    // টাস্ক রেন্ডার ফাংশন
     function renderTasks() {
         const render = (tasks, containerId) => {
             const container = document.getElementById(containerId);
@@ -167,48 +173,32 @@
             tasks.forEach(task => {
                 const limit = JSON.parse(localStorage.getItem(task.id)) || { count: 0 };
                 const isLocked = limit.count >= 2;
-                container.innerHTML += `
-                    <div class="task-row">
-                        <div class="t-info"><h4>${task.name}</h4><p>Reward: ৳ ${task.reward}</p></div>
-                        <button id="btn-${task.id}" onclick="startTask('${task.url}', '${task.name}', '${task.id}')" class="btn-start ${isLocked ? 'btn-locked' : ''}">
-                            ${isLocked ? 'Locked' : 'স্টার্ট'}
-                        </button>
-                    </div>`;
+                container.innerHTML += `<div class="task-row"><div class="t-info"><h4>${task.name}</h4><p>৳ ${task.reward}</p></div><button onclick="startTask('${task.url}', '${task.name}', '${task.id}')" class="btn-start ${isLocked ? 'btn-locked' : ''}">${isLocked ? 'Locked' : 'স্টার্ট'}</button></div>`;
             });
         };
         render(adsTasks, 'ads-container');
         render(socialTasks, 'social-container');
     }
 
-    // টাস্ক স্টার্ট ফাংশন
-    function startTask(url, taskName, taskId) {
-        if(url === 'লিংক_এখানে') return alert("এই লিংকটি এখনো দেওয়া হয়নি!");
-        let limit = JSON.parse(localStorage.getItem(taskId)) || { count: 0 };
-        if (limit.count >= 2) return alert("আজকের লিমিট শেষ সোনা!");
+    function startTask(url, name, id) {
+        if(url === 'লিংক_এখানে') return alert("লিংক দেওয়া হয়নি!");
+        let limit = JSON.parse(localStorage.getItem(id)) || { count: 0 };
+        if (limit.count >= 2) return alert("লিমিট শেষ!");
         
         limit.count++;
-        localStorage.setItem(taskId, JSON.stringify(limit));
-        
+        localStorage.setItem(id, JSON.stringify(limit));
         document.getElementById('timer-overlay').style.display = 'block';
-        document.getElementById('display-task-id').innerText = taskName;
+        document.getElementById('display-task-id').innerText = name;
         webapp.openLink(url);
-
-        let time = 15;
-        const interval = setInterval(() => {
-            time--;
-            document.getElementById('timer-count').innerText = time;
-            if(time <= 0) {
-                clearInterval(interval);
-                document.getElementById('timer-count').innerText = "✓";
-                setTimeout(() => { 
-                    document.getElementById('timer-overlay').style.display = 'none'; 
-                    renderTasks(); 
-                }, 3000);
-            }
+        
+        let t = 15;
+        const intr = setInterval(() => {
+            t--;
+            document.getElementById('timer-count').innerText = t;
+            if(t <= 0) { clearInterval(intr); document.getElementById('timer-overlay').style.display = 'none'; renderTasks(); }
         }, 1000);
     }
 
-    // ট্যাব সুইচ
     function switchTab(type) {
         document.getElementById('ads-section').classList.toggle('hidden', type !== 'ads');
         document.getElementById('social-section').classList.toggle('hidden', type === 'ads');
@@ -217,14 +207,10 @@
     }
 
     window.onload = () => {
-        if(localStorage.getItem('workly_verified') === 'true') {
-            document.getElementById('lock-screen').style.display = 'none';
-        }
+        if(localStorage.getItem('workly_verified') === 'true') document.getElementById('lock-screen').style.display = 'none';
         renderTasks();
     };
-
     function openSocial(url) { webapp.openTelegramLink(url); }
 </script>
 </body>
-        </html>
-        
+</html>
